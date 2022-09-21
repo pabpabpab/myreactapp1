@@ -9,15 +9,6 @@ import useMessages from "./components/myHooks/useMessages";
 
 export const AppContext = createContext(null);
 
-/*
-const reducer = (state, action) => {
-    switch (action.type) {
-        default: return state;
-    }
-}
-*/
-
-
 function App() {
     const {contacts, correspondentId, changeCorrespondentIdCB} = useContacts();
 

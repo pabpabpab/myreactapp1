@@ -57,7 +57,19 @@ const useMessages = (correspondentId) => {
     // ================= /Фильтрованные сообщения ====================
 
 
-    return {filteredMessages, sendMessageCB};
+    return {
+        filteredMessages,
+        sendMessageCB,
+    };
 }
 
 export default useMessages;
+
+
+/*
+const reducer = (state, action) => {
+    switch (action.type) {
+        default: return state;
+    }
+}
+*/

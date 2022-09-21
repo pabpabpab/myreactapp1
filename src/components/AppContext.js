@@ -2,6 +2,7 @@ import React, {createContext} from 'react';
 
 export const AppContext = createContext(null);
 
+// ПОКА НЕ ИСПОЛЬЗУЕТСЯ (ЧЕРНОВИК)
 const AppProvider = ({ children }) => {
     return (
         <AppContext.Provider value={}>
