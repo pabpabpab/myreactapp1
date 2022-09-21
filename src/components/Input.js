@@ -1,4 +1,5 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
+import useInput from './myHooks/useInput';
 import getMsgId from '../data/getMsgId';
 import myData from '../data/myData';
 
@@ -7,8 +8,8 @@ const Input = ({ correspondentId, sendMessageCB }) => {
     // пусть всегда фокус будет на text input
     useEffect(() => inputRef.current.focus());
 
-    // значение text input
-    const [inputValue, setInputValue] = useState('');
+    // объект textInput 
+    const textInput = useInput('');
 
     // при нажатии на кнопку Send
     const doMessage = () => {
@@ -17,9 +18,9 @@ const Input = ({ correspondentId, sendMessageCB }) => {
             userId: myData.userId,
             toUserId: correspondentId,
             nick: myData.nick,
-            text: inputValue,
+            text: textInput.value,
         };
-        setInputValue('');
+        textInput.clear();
         sendMessageCB(msg);
     }
 
@@ -28,8 +29,7 @@ const Input = ({ correspondentId, sendMessageCB }) => {
             <input
                 ref={inputRef}
                 type="text"
-                value={inputValue}
-                onChange={(event) => setInputValue(event.target.value)}
+                { ...textInput.bind }
                 className="input__text"/>
             <button
                 onClick={doMessage}

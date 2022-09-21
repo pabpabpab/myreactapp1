@@ -1,7 +1,7 @@
 import React from 'react';
 import ContactItem from "./ContactItem";
 
-const Contacts = ({ contacts, correspondentId, changeCorrespondentIdCB }) => {
+const Contacts = ({ contacts }) => {
     return (
         <div className="contacts">
             {
@@ -10,8 +10,6 @@ const Contacts = ({ contacts, correspondentId, changeCorrespondentIdCB }) => {
                         <ContactItem
                             contact={contact}
                             key={contact.userId}
-                            correspondentId={correspondentId}
-                            changeCorrespondentIdCB={changeCorrespondentIdCB}
                         />
                     )
                 })
