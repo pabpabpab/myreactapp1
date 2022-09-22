@@ -18,7 +18,6 @@ function App() {
     const {msgState, sendMessageCB} = useMessages();
     const {filteredMessages} = useFilteredMessages(correspondentId, msgState);
 
-
     return (
         <AppContext.Provider value={{correspondentId, changeCorrespondentIdCB}}>
             <div className="messenger-app">
