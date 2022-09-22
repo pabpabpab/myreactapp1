@@ -1,17 +1,18 @@
 import {useEffect, useState} from 'react';
 
 // Фильтрованные сообщения (переписка с выбранным корреспондентом)
-const useFilteredMessages = (correspondentId, allMessages, updateFlag) => {
+const useFilteredMessages = (correspondentId, msgState) => {
     const [filteredMessages, setFilteredMessages] = useState([]);
 
     useEffect(
         () => {
             setFilteredMessages([]);
-            if (allMessages?.size && correspondentId && allMessages.has(correspondentId)) {
-                setFilteredMessages(allMessages.get(correspondentId));
+            const map = msgState?.messages;
+            if (map?.size && correspondentId && map.has(correspondentId)) {
+                setFilteredMessages(map.get(correspondentId));
             }
         },
-        [correspondentId, allMessages, updateFlag]
+        [correspondentId, msgState]
     );
 
     return {

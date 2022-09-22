@@ -15,13 +15,9 @@ function App() {
     const {contacts} = useContacts();
     const {correspondentId, changeCorrespondentIdCB} = useCorrespondent(contacts);
 
-    const {allMessages, updateFlag, sendMessageCB} = useMessages();
-    const {filteredMessages} = useFilteredMessages(correspondentId, allMessages, updateFlag);
+    const {msgState, sendMessageCB} = useMessages();
+    const {filteredMessages} = useFilteredMessages(correspondentId, msgState);
 
-    /*
-    const {msgState, sendMessageCB} = useMessages2();
-    const {filteredMessages} = useFilteredMessages2(correspondentId, msgState);
-   */
 
     return (
         <AppContext.Provider value={{correspondentId, changeCorrespondentIdCB}}>
