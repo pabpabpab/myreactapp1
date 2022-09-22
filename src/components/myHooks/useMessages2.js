@@ -1,60 +1,67 @@
-import {useCallback, useEffect, useState} from 'react';
+// НЕ ИСПОЛЬЗУЕТСЯ
+import {useCallback, useEffect, useReducer} from 'react';
 import myFetchFunc from '../../data/myFetchFunc';
 import packMessagesIntoMap from '../../data/packMessagesIntoMap';
 
-const useMessages = () => {
+const SET_ALL = 'setAll';
+const ADD_ONE = 'addOne';
+
+
+const msgReducer = (state, action) => {
+    switch (action.type) {
+        case SET_ALL:
+            return {...state, messages: action.map }
+        case ADD_ONE:
+            const map = state.messages;
+            const msg = action.message;
+            if (map.has(msg.toUserId)) {
+                const newValue = [ ...map.get(msg.toUserId), ...[msg] ];
+                const newState = {...state, messages: map.set(msg.toUserId, newValue)};
+                console.log(newState);
+                return newState;
+            }
+            return state;
+        default: return state;
+    }
+}
+
+
+const useMessages2 = () => {
 
     // =================== Все сообщения ======================
-
     /* allMessages - все сообщения на клиенте,
     * для хранения всех сообщений использую структуру Map,
     * где ключи будут userId корреспондентов, а значения - массив сообщений соответствующего корреспондента
     * */
-    const [allMessages, setAllMessages] = useState(null);
+    const [msgState, dispatch] = useReducer(msgReducer, null);
+
 
     // Загрузка сообщений с сервера при mount и упаковка в Map
     useEffect(
         () => {
             myFetchFunc('messagesUrl').then(receivedMessages => {
                 const map = packMessagesIntoMap(receivedMessages);
-                setAllMessages(map);
+                dispatch({ type: SET_ALL, map });
             });
         },
         [],
     );
     // =================== /Все сообщения ======================
 
-
-    // костыль для придания реактивности структуре Map (allMessages) в нужный момент
-    const [updateFlag, setUpdateFlag] = useState(0);
-
     // ============== Колбэк «добавить новое сообщение» ================
     // это колбэк, который отправим в компонент Input
     // он добавляет новое сообщение из Input к сообщениям в Map
-    const sendMessageCB = useCallback((msg) => {
-        if (allMessages.has(msg.toUserId)) {
-            setAllMessages(v => v.set(msg.toUserId, [ ...v.get(msg.toUserId), ...[msg] ]) );
-            // костылик - сообщаю что изменились allMessages
-            // и надо перерендерить filteredMessages
-            setUpdateFlag(Date.now());
+    const sendMessageCB = useCallback((message) => {
+        if (msgState.messages.has(message.toUserId)) {
+            dispatch({ type: ADD_ONE, message });
         }
-    }, [allMessages]);
+    }, [msgState]);
     // ============== /Колбэк «добавить новое сообщение» ================
 
     return {
-        allMessages,
-        updateFlag,
+        msgState,
         sendMessageCB,
     };
 }
 
-export default useMessages;
-
-
-/*
-const reducer = (state, action) => {
-    switch (action.type) {
-        default: return state;
-    }
-}
-*/
+export default useMessages2;
