@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import myFetchFunc from "../../data/myFetchFunc";
+import myFetchFunc from "../functions/myFetchFunc";
 
 // Контакты с сервера (в левой части экрана)
 const useContacts = () => {

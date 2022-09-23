@@ -1,20 +1,20 @@
 import React, {useEffect, useRef} from 'react';
 import useInput from './myHooks/useInput';
-import getMsgId from '../data/getMsgId';
 import myData from '../data/myData';
 
-const Input = ({ correspondentId, sendMessageCB }) => {
+const Input = ({ correspondentId, sendMessageCB, getLastIdCB }) => {
     const inputRef = useRef(null);
     // пусть всегда фокус будет на text input
-    useEffect(() => inputRef.current.focus());
+    useEffect(() => inputRef.current?.focus());
 
-    // объект textInput 
+    // объект textInput
     const textInput = useInput('');
 
     // при нажатии на кнопку Send
-    const doMessage = () => {
+    const doMessage = (e) => {
+        e.preventDefault();
         const msg = {
-            id: getMsgId(),
+            id: getLastIdCB() + 1,
             userId: myData.userId,
             toUserId: correspondentId,
             nick: myData.nick,
@@ -25,18 +25,18 @@ const Input = ({ correspondentId, sendMessageCB }) => {
     }
 
     return (
-        <div className="input">
+        <form onSubmit={doMessage} className="input">
             <input
                 ref={inputRef}
                 type="text"
-                { ...textInput.bind }
+                {...textInput.bind}
                 className="input__text"/>
             <button
-                onClick={doMessage}
+                type="submit"
                 className="input__button">
                 Send
             </button>
-        </div>
+        </form>
     );
 }
 

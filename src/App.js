@@ -8,6 +8,8 @@ import useContacts from './components/myHooks/useContacts';
 import useCorrespondent from './components/myHooks/useCorrespondent';
 import useMessages from './components/myHooks/useMessages';
 import useFilteredMessages from './components/myHooks/useFilteredMessages';
+import useGetLastId from './components/myHooks/useGetLastId';
+import useBotAnswer from './components/myHooks/useBotAnswer';
 
 export const AppContext = createContext(null);
 
@@ -15,8 +17,11 @@ function App() {
     const {contacts} = useContacts();
     const {correspondentId, changeCorrespondentIdCB} = useCorrespondent(contacts);
 
-    const {msgState, sendMessageCB} = useMessages();
+    const {msgState, dispatch, sendMessageCB} = useMessages();
     const {filteredMessages} = useFilteredMessages(correspondentId, msgState);
+
+    const {getLastIdCB} = useGetLastId(msgState);
+    useBotAnswer(msgState, correspondentId, getLastIdCB, dispatch);
 
     return (
         <AppContext.Provider value={{correspondentId, changeCorrespondentIdCB}}>
@@ -27,7 +32,8 @@ function App() {
                     messages={filteredMessages}/>
                 <Input
                     correspondentId={correspondentId}
-                    sendMessageCB={sendMessageCB}/>
+                    sendMessageCB={sendMessageCB}
+                    getLastIdCB={getLastIdCB} />
             </div>
         </AppContext.Provider>
     );

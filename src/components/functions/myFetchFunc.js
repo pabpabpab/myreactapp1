@@ -1,5 +1,5 @@
-import startMessages from "./messagesFromServer";
-import startContacts from "./contactsFromServer";
+import startMessages from "../../data/messagesFromServer";
+import startContacts from "../../data/contactsFromServer";
 
 // функция имитация выборки данных с сервера
 export default function myFetchFunc(url) {

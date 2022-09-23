@@ -1,28 +1,8 @@
 import {useCallback, useEffect, useReducer} from 'react';
-import myFetchFunc from '../../data/myFetchFunc';
-import packMessagesIntoMap from '../../data/packMessagesIntoMap';
-
-const SET_ALL = 'setAll';
-const ADD_ONE = 'addOne';
-
-const msgReducer = (state, action) => {
-    switch (action.type) {
-        case SET_ALL:
-            return {...state, messages: action.map }
-        case ADD_ONE:
-            const map = state.messages;
-            const msg = action.message;
-            const key = msg.toUserId;
-            if (map.has(key)) {
-                const oldValue = map.get(key);
-                const newValue = [ ...oldValue, ...[msg] ];
-                state.messages.set(key, newValue);
-                return {...state};
-            }
-            return state;
-        default: return state;
-    }
-}
+import myFetchFunc from '../functions/myFetchFunc';
+import packMessagesIntoMap from '../functions/packMessagesIntoMap';
+import myConst from '../functions/getConstants';
+import msgReducer from '../functions/msgReducer';
 
 const useMessages = () => {
     // =================== Все сообщения ======================
@@ -37,7 +17,8 @@ const useMessages = () => {
         () => {
             myFetchFunc('messagesUrl').then(receivedMessages => {
                 const map = packMessagesIntoMap(receivedMessages);
-                dispatch({ type: SET_ALL, map });
+                dispatch({ type: myConst.SET_ALL, map });
+                // msgState.lastAction = myConst.SET_ALL;
             });
         },
         [],
@@ -49,13 +30,16 @@ const useMessages = () => {
     // он добавляет новое сообщение из Input к сообщениям в Map
     const sendMessageCB = useCallback((message) => {
         if (msgState.messages.has(message.toUserId)) {
-            dispatch({ type: ADD_ONE, message });
+            dispatch({ type: myConst.ADD_ONE, message });
+            msgState.lastAction = myConst.ADD_ONE;
         }
     }, [msgState]);
     // ============== /Колбэк «добавить новое сообщение» ================
 
+
     return {
         msgState,
+        dispatch,
         sendMessageCB,
     };
 }
