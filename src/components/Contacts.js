@@ -1,5 +1,6 @@
 import React from 'react';
-import ContactItem from "./ContactItem";
+import ContactItem from './ContactItem';
+import PropTypes from 'prop-types';
 
 const Contacts = ({ contacts }) => {
     return (
@@ -17,5 +18,9 @@ const Contacts = ({ contacts }) => {
         </div>
     );
 };
+
+Contacts.propTypes = {
+    contacts: PropTypes.arrayOf(PropTypes.object),
+}
 
 export default Contacts;

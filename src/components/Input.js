@@ -1,6 +1,11 @@
 import React, {useEffect, useRef} from 'react';
 import useInput from './myHooks/useInput';
 import myData from '../data/myData';
+import PropTypes from 'prop-types';
+
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+
 
 const Input = ({ correspondentId, sendMessageCB, getLastIdCB }) => {
     const inputRef = useRef(null);
@@ -26,18 +31,28 @@ const Input = ({ correspondentId, sendMessageCB, getLastIdCB }) => {
 
     return (
         <form onSubmit={doMessage} className="input">
-            <input
+            <TextField
                 ref={inputRef}
-                type="text"
                 {...textInput.bind}
-                className="input__text"/>
-            <button
+                id="outlined-basic"
+                variant="outlined"
+                sx={{
+                    backgroundColor: '#fff',
+                }}/>
+            <Button
                 type="submit"
-                className="input__button">
+                variant="contained"
+                size="small">
                 Send
-            </button>
+            </Button>
         </form>
     );
+}
+
+Input.propTypes = {
+    correspondentId: PropTypes.number.isRequired,
+    sendMessageCB: PropTypes.func.isRequired,
+    getLastIdCB: PropTypes.func.isRequired,
 }
 
 export default Input;

@@ -11,6 +11,15 @@ import useFilteredMessages from './components/myHooks/useFilteredMessages';
 import useGetLastId from './components/myHooks/useGetLastId';
 import useBotAnswer from './components/myHooks/useBotAnswer';
 
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#527712',
+        },
+    },
+});
+
 export const AppContext = createContext(null);
 
 function App() {
@@ -25,16 +34,18 @@ function App() {
 
     return (
         <AppContext.Provider value={{correspondentId, changeCorrespondentIdCB}}>
-            <div className="messenger-app">
-                <Contacts
-                    contacts={contacts}/>
-                <Messages
-                    messages={filteredMessages}/>
-                <Input
-                    correspondentId={correspondentId}
-                    sendMessageCB={sendMessageCB}
-                    getLastIdCB={getLastIdCB} />
-            </div>
+            <ThemeProvider theme={theme}>
+                <div className="messenger-app">
+                    <Contacts
+                        contacts={contacts}/>
+                    <Messages
+                        messages={filteredMessages}/>
+                    <Input
+                        correspondentId={correspondentId}
+                        sendMessageCB={sendMessageCB}
+                        getLastIdCB={getLastIdCB}/>
+                </div>
+            </ThemeProvider>
         </AppContext.Provider>
     );
 }

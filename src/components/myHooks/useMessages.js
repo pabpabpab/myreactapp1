@@ -36,7 +36,6 @@ const useMessages = () => {
     }, [msgState]);
     // ============== /Колбэк «добавить новое сообщение» ================
 
-
     return {
         msgState,
         dispatch,

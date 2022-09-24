@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useContext} from 'react';
 import {AppContext} from '../App';
+import PropTypes from 'prop-types';
 
 
 const ContactItem = ({ contact }) => {
@@ -25,5 +26,12 @@ const ContactItem = ({ contact }) => {
         </div>
     );
 };
+
+ContactItem.propTypes = {
+    message: PropTypes.shape({
+        userId: PropTypes.number.isRequired,
+        nick: PropTypes.string.isRequired,
+    }),
+}
 
 export default ContactItem;

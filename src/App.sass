@@ -32,12 +32,14 @@
   grid-template-rows: 1fr
   grid-template-columns: 1fr 70px
   grid-gap: 0
+  align-self: center
 
 .input__text
   padding: 15px 20px
   +font(18px, #000, 400)
   outline: none
   border: none
+
 .input__button
   background-color: #527712
   +font(16px, #fff, 400)
@@ -53,8 +55,11 @@
   &:hover
     background: #c1e0c1
 
-
 .message-item
   padding: 20px 25px
   +font(18px, #000, 400)
 
+.no-messages
+  padding: 20px 25px
+  +font(18px, #686868, 400)
+  text-align: center
